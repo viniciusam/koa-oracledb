@@ -1,34 +1,42 @@
 const oracledb = require('oracledb');
+const debug = require('debug')('koa-oracledb');
 
-// Properties are applicable to all connections and SQL executions.
-// They can also be set or overridden at the individual execute() call level
-//
-// This script sets outFormat in the execute() call but it could be set here instead:
-oracledb.outFormat = oracledb.OBJECT;
-oracledb.maxRows = 9999;
-
-oracledb.createPool({
-  poolAlias:     "default",
-  user:          process.env.NODE_ORACLEDB_USER,
-  password:      process.env.NODE_ORACLEDB_PASSWORD,
-  connectString: process.env.NODE_ORACLEDB_CONNECTIONSTRING
-}, function(err, pool) {
-  if (err) return console.error(err.message);
-});
-
-// Instance of oracledb configuration.
-module.exports.oracledb = oracledb;
+module.exports = KoaOracle;
 
 /**
- * Connects to db and set it into a context variable.
+ * Constructor
+ * @param poolAttr pool attrs (https://github.com/oracle/node-oracledb/blob/master/doc/api.md#createpool)
  */
-module.exports.connect = async function (ctx, next) {
-    try {
-        ctx.db = await oracledb.getConnection();
-        await next();
-    } catch (err) {
-        throw err;
-    } finally {
-        if (ctx.db) ctx.db.close;
+function KoaOracle(poolAttrs) {
+    this.attrs = poolAttrs;
+    
+    if (!this.attrs.poolAlias)
+        this.attrs.poolAlias = 'default';
+
+    oracledb.createPool(this.attrs)
+        .then(() => debug('Pool Created: %s', this.attrs.poolAlias))
+        .catch(err => debug('Error: %s', err.message));
+}
+
+/**
+ * Creates the db connection and set it into the ctx.db variable.
+ * The connection is closed after all next() calls are returned.
+ */
+KoaOracle.prototype.middleware = function() {
+    var poolAttrs = this.attrs;    
+    return async function (ctx, next) {
+        try {
+            ctx.db = await oracledb.getConnection(poolAttrs.poolAlias);
+            debug('Connection Aquired: %s', poolAttrs.poolAlias);
+            await next();
+        } catch (err) {
+            debug('Error: %s', err.message);
+            throw err;
+        } finally {
+            if (ctx.db) {
+                ctx.db.close();
+                debug('Connection Closed');
+            }
+        }
     }
-} 
+}
