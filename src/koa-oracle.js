@@ -22,12 +22,12 @@ function KoaOracle(poolAttrs) {
  * Creates the db connection and set it into the ctx.db variable.
  * The connection is closed after all next() calls are returned.
  */
-KoaOracle.prototype.middleware = function() {
-    var poolAttrs = this.attrs;    
+KoaOracle.prototype.middleware = function () {
+    var poolAlias = this.attrs.poolAlias;    
     return async function (ctx, next) {
         try {
-            ctx.db = await oracledb.getConnection(poolAttrs.poolAlias);
-            debug('Connection Aquired: %s', poolAttrs.poolAlias);
+            ctx.db = await oracledb.getConnection(poolAlias);
+            debug('Connection Aquired: %s', poolAlias);
             await next();
         } catch (err) {
             debug('Error: %s', err.message);
