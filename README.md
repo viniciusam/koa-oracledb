@@ -3,11 +3,11 @@ node-oracledb middleware for Koa v2
 
 [![NPM](https://nodei.co/npm/koa-oracledb.png)](https://nodei.co/npm/koa-oracledb/)
 
-### Install
+## Install
 
     npm install koa-oracledb --save
 
-### Usage
+## Usage
 
 ```
 const Koa = require('koa');
@@ -37,9 +37,9 @@ var router = new Router({ prefix: '/v1' });
 router.use(poolV1.middleware());
 ```
 
-### Example
+## Example
 You can find a full example on examples/example.js.
 
-### License
+## License
 
 MIT
