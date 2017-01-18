@@ -1,6 +1,8 @@
 ## koa-oracledb
 node-oracledb middleware for Koa v2
 
+[![NPM](https://nodei.co/npm/koa-oracledb.png)](https://nodei.co/npm/koa-oracledb/)
+
 ### Install
 
     npm install koa-oracledb --save
