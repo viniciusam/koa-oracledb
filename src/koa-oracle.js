@@ -38,5 +38,5 @@ KoaOracle.prototype.middleware = function () {
                 debug('Connection Closed');
             }
         }
-    }
-}
+    };
+};
