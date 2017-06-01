@@ -1,14 +1,12 @@
 {
   "name": "koa-oracledb",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "node-oracledb middleware for Koa.",
-  "main": "lib/koa-oracle.js",
-  "files": [
-    "lib"
-  ],
-  "scripts": {
-	  "build": "babel src -d lib",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "author": "Vinicius Avellar",
+  "license": "MIT",
+  "homepage": "https://github.com/viniciusam/koa-oracledb#readme",
+  "bugs": {
+    "url": "https://github.com/viniciusam/koa-oracledb/issues"
   },
   "repository": {
     "type": "git",
@@ -19,18 +17,18 @@
     "oracle",
     "oracledb"
   ],
-  "author": "Vinicius Avellar",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/viniciusam/koa-oracledb/issues"
+  "main": "src/koa-oracle.js",
+  "files": [
+    "src"
+  ],
+  "engines": {
+    "node": ">= 7.6.0"
   },
-  "homepage": "https://github.com/viniciusam/koa-oracledb#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
-    "debug": "~2.2.0",
-    "oracledb": "^1.11.0"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-preset-latest": "^6.16.0"
+    "debug": "^2.6.8",
+    "oracledb": "^1.13.1"
   }
 }
